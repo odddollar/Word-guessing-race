@@ -11,23 +11,6 @@ import (
 
 // words are 5 letter nouns, adjectives or verbs
 
-type user struct {
-	name  string
-	score int
-}
-
-var users []user
-
-func updateScore(username string) {
-	// update score for user
-	for i := 0; i < len(users); i++ {
-		if users[i].name == username {
-			users[i].score++
-			break
-		}
-	}
-}
-
 func main() {
 	rand.Seed(time.Now().UnixNano())
 

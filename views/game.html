@@ -14,11 +14,11 @@
     <script>
         // store username
         // passed to page with server templating engine
-        const username = {{.Username}};
+        const username = '{{.Username}}';
 
         // list of words passed to page with server templating engine
         // then converted to json object/array
-        const words = JSON.parse({{.WordList}});
+        const words = JSON.parse('{{.WordList}}');
         let wordIndex = 0;
 
         // set initial word on page
