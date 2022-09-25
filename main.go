@@ -18,6 +18,16 @@ type user struct {
 
 var users []user
 
+func updateScore(username string) {
+	// update score for user
+	for i := 0; i < len(users); i++ {
+		if users[i].name == username {
+			users[i].score++
+			break
+		}
+	}
+}
+
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
@@ -38,6 +48,12 @@ func main() {
 
 	// handle redirection to main game page
 	router.GET("/game", game)
+
+	// api endpoint for getting scoreboard data
+	router.GET("/score", score)
+
+	// handle updating scores for user
+	router.POST("/score", scorePostback)
 
 	// run server
 	router.Run("localhost:8080")

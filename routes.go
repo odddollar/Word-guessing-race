@@ -7,6 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type scoreJSON struct {
+	Username string `json:"name"`
+}
+
 func home(ctx *gin.Context) {
 	ctx.HTML(http.StatusOK, "home.html", gin.H{})
 }
@@ -27,4 +31,17 @@ func game(ctx *gin.Context) {
 		"WordList": string(wordList),
 		"Username": username,
 	})
+}
+
+func score(ctx *gin.Context) {
+
+}
+
+func scorePostback(ctx *gin.Context) {
+	body := scoreJSON{}
+	ctx.BindJSON(&body)
+
+	updateScore(body.Username)
+
+	fmt.Println(users)
 }

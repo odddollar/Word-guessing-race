@@ -27,7 +27,7 @@
 
         // check guess on input change
         const guessBox = document.getElementById("guess");
-        guessBox.addEventListener("keypress", (e) => {
+        guessBox.addEventListener("keypress", e => {
             checkGuess(guessBox.value);
         })
 
@@ -38,8 +38,21 @@
                 currentWord.innerText = words[wordIndex];
                 guessBox.value = "";
 
-                // todo: post completed word back to server to keep score
+                // post completion status back to server to update score
+                updateScore();
             }
+        }
+
+        function updateScore() {
+            fetch("http://localhost:8080/score", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify({
+                    name: username,
+                })
+            }).catch(e => console.error("Error: ", e));
         }
     </script>
 </body>
