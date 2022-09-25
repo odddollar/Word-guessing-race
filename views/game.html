@@ -12,12 +12,20 @@
     <input type="text" id="guess">
 
     <script>
+        // store username
+        // passed to page with server templating engine
+        const username = {{.Username}};
+
+        // list of words passed to page with server templating engine
+        // then converted to json object/array
         const words = JSON.parse({{.WordList}});
         let wordIndex = 0;
 
+        // set initial word on page
         let currentWord = document.getElementById("word")
         currentWord.innerText = words[wordIndex];
 
+        // check guess on input change
         const guessBox = document.getElementById("guess");
         guessBox.addEventListener("keypress", (e) => {
             checkGuess(guessBox.value);
@@ -25,9 +33,12 @@
 
         function checkGuess(guess) {
             if (guess == words[wordIndex]) {
+                // update to new word
                 wordIndex++;
                 currentWord.innerText = words[wordIndex];
                 guessBox.value = "";
+
+                // todo: post completed word back to server to keep score
             }
         }
     </script>

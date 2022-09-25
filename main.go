@@ -33,7 +33,7 @@ func main() {
 	// host initial home page for setting username
 	router.GET("/", home)
 
-	// append new username to list of users and set initial score
+	// handle postback for setting username
 	router.POST("/", homePostback)
 
 	// handle redirection to main game page
