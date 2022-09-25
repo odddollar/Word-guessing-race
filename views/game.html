@@ -1,4 +1,3 @@
-{{define "views/game.html"}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
-    <p>{{.WordList}}</p>
+    <div x-data="{ 
+        wordList: {{.WordList}},
+        wordIndex: 0,
+        guess: '',
+
+        checkGuess() {
+            if (this.guess == this.wordList[this.wordIndex]) {
+                this.wordIndex++;
+            }
+        }
+    }">
+        <div x-text="wordList[wordIndex]"></div>
+        <div x-text="wordIndex"></div>
+        
+        <input x-model="guess" placeholder="Guess">
+        <button x-on:click="checkGuess()">Check guess</button>
+    </div>
 </body>
 </html>
-{{end}}
