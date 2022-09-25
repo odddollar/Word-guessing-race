@@ -5,25 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
-    <div x-data="{ 
-        wordList: {{.WordList}},
-        wordIndex: 0,
-        guess: '',
+    <h1>Word Guessing Race</h1>
+    <h2 id="word"></h2>
+    <input type="text" id="guess">
 
-        checkGuess() {
-            if (this.guess == this.wordList[this.wordIndex]) {
-                this.wordIndex++;
+    <script>
+        const words = JSON.parse({{.WordList}});
+        let wordIndex = 0;
+
+        let currentWord = document.getElementById("word")
+        currentWord.innerText = words[wordIndex];
+
+        const guessBox = document.getElementById("guess");
+        guessBox.addEventListener("keypress", (e) => {
+            checkGuess(guessBox.value);
+        })
+
+        function checkGuess(guess) {
+            if (guess == words[wordIndex]) {
+                wordIndex++;
+                currentWord.innerText = words[wordIndex];
+                guessBox.value = "";
             }
         }
-    }">
-        <div x-text="wordList[wordIndex]"></div>
-        <div x-text="wordIndex"></div>
-        
-        <input x-model="guess" placeholder="Guess">
-        <button x-on:click="checkGuess()">Check guess</button>
-    </div>
+    </script>
 </body>
 </html>
