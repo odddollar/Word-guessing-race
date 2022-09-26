@@ -8,8 +8,10 @@
 </head>
 <body>
     <h1>Word Guessing Race</h1>
-    <h2 id="word"></h2>
-    <input type="text" id="guess">
+    <div id="game">
+        <h2 id="word"></h2>
+        <input type="text" id="guess">
+    </div>
     <table id="scoreboard">
         <tr>
             <th>Username</th>
@@ -24,6 +26,7 @@
         // list of words passed to page with server templating engine
         // then converted to json object/array
         const words = JSON.parse('{{.WordList}}');
+        const totalWords = words.length;
         let wordIndex = parseInt("{{.Score}}", 10);
 
         // set initial word on page load
@@ -37,11 +40,16 @@
         })
 
         // update scoreboard every X period of time
-        setInterval(() => {
+        let scoreRefresh = setInterval(() => {
             getScoreboardJSON().then(res => {
                 console.log(res);
-                removeChildren("scoreboard");
+
+                // remove old scoreboard and replace with updated one
+                removeChildren(document.getElementById("scoreboard"), 1);
                 addScoreboardRows(res);
+
+                // check if there's a winner
+                checkWinner(res);
             })
         }, 2000);
         
@@ -82,14 +90,39 @@
             sb.appendChild(newRow);
         }
 
-        function removeChildren(elementId) {
-            const e = document.getElementById(elementId);
-
-            let child = e.lastElementChild;
-            while (e.childElementCount > 1) {
-                e.removeChild(child);
-                child = e.lastElementChild;
+        // iterate through child elements of node and remove all but first
+        function removeChildren(element, remaining) {
+            let child = element.lastElementChild;
+            while (element.childElementCount > remaining) {
+                element.removeChild(child);
+                child = element.lastElementChild;
             }
+        }
+
+        function checkWinner(json) {
+            // iterate through all users and check for winner
+            for (user of JSON.parse(json)) {
+                if (user.score == totalWords) {
+                    // stop pinging server for score data
+                    clearInterval(scoreRefresh);
+                    
+                    // display winner
+                    displayWinner(user.name);
+                }
+            }
+        }
+
+        function displayWinner(winnerName) {
+            const game = document.getElementById("game");
+
+            // remove game elements
+            removeChildren(game, 0);
+
+            // add winner elements
+            const banner = document.createElement("p");
+            banner.innerText = winnerName + " won!";
+
+            game.appendChild(banner);
         }
 
         function checkGuess(guess) {
