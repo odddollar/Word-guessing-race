@@ -10,9 +10,14 @@
     <h1>Word Guessing Race</h1>
     <h2 id="word"></h2>
     <input type="text" id="guess">
+    <table id="scoreboard">
+        <tr>
+            <th>Username</th>
+            <th>Score</th>
+        </tr>
+    </table>
 
     <script>
-        // store username
         // passed to page with server templating engine
         const username = '{{.Username}}';
 
@@ -21,7 +26,7 @@
         const words = JSON.parse('{{.WordList}}');
         let wordIndex = 0;
 
-        // set initial word on page
+        // set initial word on page load
         let currentWord = document.getElementById("word")
         currentWord.innerText = words[wordIndex];
 
@@ -30,6 +35,62 @@
         guessBox.addEventListener("keypress", e => {
             checkGuess(guessBox.value);
         })
+
+        // update scoreboard every X period of time
+        setInterval(() => {
+            getScoreboardJSON().then(res => {
+                console.log(res);
+                removeChildren("scoreboard");
+                addScoreboardRows(res);
+            })
+        }, 2000);
+        
+        // return promise that will resolve to json data
+        function getScoreboardJSON() {
+            return fetch("http://localhost:8080/score", {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            }).then(res => res.json())
+            .catch(e => console.log("Error: ", e));
+        }
+
+        // take json data and add rows to scoreboard table
+        function addScoreboardRows(json) {
+            const scores = JSON.parse(json);
+            for (score of scores) {
+                addScoreboardRow(score);
+            }
+        }
+
+        function addScoreboardRow(row) {
+            // get constants to append together
+            const sb = document.getElementById("scoreboard");
+            const newRow = document.createElement("tr");
+
+            // create new table row and set data
+            const name = document.createElement("td")
+            name.innerText = row.name;
+            newRow.appendChild(name);
+            const score = document.createElement("td");
+            score.innerText = row.score;
+            newRow.appendChild(name);
+            newRow.appendChild(score);
+
+            // append new row to parent table element
+            sb.appendChild(newRow);
+        }
+
+        function removeChildren(elementId) {
+            const e = document.getElementById(elementId);
+
+            let child = e.lastElementChild;
+            while (e.childElementCount > 1) {
+                e.removeChild(child);
+                child = e.lastElementChild;
+            }
+        }
 
         function checkGuess(guess) {
             if (guess == words[wordIndex]) {
@@ -43,6 +104,7 @@
             }
         }
 
+        // post username as json to api endpoint to register completed word
         function updateScore() {
             fetch("http://localhost:8080/score", {
                 method: "POST",
