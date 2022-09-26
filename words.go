@@ -10,6 +10,7 @@ const totalWords = 10
 
 var wordList string
 
+// return array of strings containing lines of file
 func readWordFile(f string) []string {
 	words := []string{}
 
@@ -24,6 +25,7 @@ func readWordFile(f string) []string {
 	return words
 }
 
+// select random elements from input string array
 func generateWordList(words []string) []string {
 	selected := []string{}
 
