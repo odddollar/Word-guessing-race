@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -39,5 +40,10 @@ func main() {
 	router.POST("/score", scorePostback)
 
 	// run server
-	router.Run("localhost:8080")
+	if location := os.Getenv("DOCKER"); location == "" {
+		router.Run("localhost:8080")
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+		router.Run("0.0.0.0:8080")
+	}
 }
