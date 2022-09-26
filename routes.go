@@ -32,6 +32,16 @@ func updateScore(username string) {
 	}
 }
 
+// get user's score from internal database
+func getScore(username string) int {
+	for i := 0; i < len(users); i++ {
+		if users[i].Name == username {
+			return users[i].Score
+		}
+	}
+	return 0
+}
+
 // return home.html template
 func home(ctx *gin.Context) {
 	ctx.HTML(http.StatusOK, "home.html", gin.H{})
@@ -55,6 +65,7 @@ func game(ctx *gin.Context) {
 	ctx.HTML(http.StatusOK, "game.html", gin.H{
 		"WordList": string(wordList),
 		"Username": username,
+		"Score":    getScore(username),
 	})
 }
 
