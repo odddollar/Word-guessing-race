@@ -15,6 +15,14 @@ import (
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
+	var location string
+	if l := os.Getenv("DOCKER"); l == "" {
+		location = "localhost:8080"
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+		location = "0.0.0.0:8080"
+	}
+
 	// setup gin server
 	router := gin.Default()
 	router.LoadHTMLGlob("views/*")
@@ -40,10 +48,5 @@ func main() {
 	router.POST("/score", scorePostback)
 
 	// run server
-	if location := os.Getenv("DOCKER"); location == "" {
-		router.Run("localhost:8080")
-	} else {
-		gin.SetMode(gin.ReleaseMode)
-		router.Run("0.0.0.0:8080")
-	}
+	router.Run(location)
 }
