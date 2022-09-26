@@ -10,6 +10,8 @@ COPY . .
 
 RUN go build -o game
 
+ENV DOCKER=true
+
 EXPOSE 8080
 
 CMD [ "/game" ]

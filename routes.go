@@ -62,10 +62,13 @@ func homePostback(ctx *gin.Context) {
 func game(ctx *gin.Context) {
 	username := ctx.Param("username")
 
+	url := ctx.Request.Host
+
 	ctx.HTML(http.StatusOK, "game.html", gin.H{
 		"WordList": string(wordList),
 		"Username": username,
 		"Score":    getScore(username),
+		"URL":      url,
 	})
 }
 

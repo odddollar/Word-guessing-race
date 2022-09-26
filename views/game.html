@@ -22,6 +22,7 @@
     <script>
         // passed to page with server templating engine
         const username = "{{.Username}}";
+        const url = "{{.URL}}";
 
         // list of words passed to page with server templating engine
         // then converted to json object/array
@@ -42,8 +43,6 @@
         // update scoreboard every X period of time
         let scoreRefresh = setInterval(() => {
             getScoreboardJSON().then(res => {
-                console.log(res);
-
                 // remove old scoreboard and replace with updated one
                 removeChildren(document.getElementById("scoreboard"), 1);
                 addScoreboardRows(res);
@@ -55,7 +54,7 @@
         
         // return promise that will resolve to json data
         function getScoreboardJSON() {
-            return fetch("http://localhost:8080/score", {
+            return fetch("http://" + url + "/score", {
                 method: "GET",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -139,7 +138,7 @@
 
         // post username as json to api endpoint to register completed word
         function updateScore() {
-            fetch("http://localhost:8080/score", {
+            fetch("http://" + url + "/score", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
