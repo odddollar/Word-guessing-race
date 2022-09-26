@@ -45,12 +45,12 @@ func homePostback(ctx *gin.Context) {
 
 	fmt.Println(users)
 
-	ctx.Redirect(http.StatusSeeOther, "/game?username="+username)
+	ctx.Redirect(http.StatusSeeOther, "/game/"+username)
 }
 
 // take username query-string and word list and render game.html template
 func game(ctx *gin.Context) {
-	username := ctx.Query("username")
+	username := ctx.Param("username")
 
 	ctx.HTML(http.StatusOK, "game.html", gin.H{
 		"WordList": string(wordList),

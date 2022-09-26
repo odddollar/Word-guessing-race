@@ -30,7 +30,7 @@ func main() {
 	router.POST("/", homePostback)
 
 	// handle redirection to main game page
-	router.GET("/game", game)
+	router.GET("/game/:username", game)
 
 	// api endpoint for getting scoreboard data
 	router.GET("/score", score)
