@@ -31,7 +31,7 @@
 
         // set initial word on page load
         let currentWord = document.getElementById("word")
-        currentWord.innerText = words[wordIndex];
+        currentWord.innerText = words[wordIndex][0] + " _ " + words[wordIndex][2] + " _ " + words[wordIndex][4];
 
         // check guess on input change
         const guessBox = document.getElementById("guess");
@@ -129,7 +129,7 @@
             if (guess == words[wordIndex]) {
                 // update to new word
                 wordIndex++;
-                currentWord.innerText = words[wordIndex];
+                currentWord.innerText = words[wordIndex] != null ? words[wordIndex][0] + " _ " + words[wordIndex][2] + " _ " + words[wordIndex][4] : "No more words";
                 guessBox.value = "";
 
                 // post completion status back to server to update score
