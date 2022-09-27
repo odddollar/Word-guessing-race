@@ -12,7 +12,7 @@ guessBox.addEventListener("keypress", e => {
 let scoreRefresh = setInterval(() => {
     getScoreboardJSON().then(res => {
         // remove old scoreboard and replace with updated one
-        removeChildren(document.getElementById("scoreboard"), 1);
+        removeChildren(document.getElementById("scoreboard"));
         addScoreboardRows(res);
 
         // check if there's a winner
@@ -34,7 +34,7 @@ function getScoreboardJSON() {
 // take json data and add rows to scoreboard table
 function addScoreboardRows(json) {
     const scores = JSON.parse(json);
-    for (score of scores) {
+    for (const score of scores) {
         addScoreboardRow(score);
     }
 }
@@ -58,11 +58,9 @@ function addScoreboardRow(row) {
 }
 
 // iterate through child elements of node and remove all but first
-function removeChildren(element, remaining) {
-    let child = element.lastElementChild;
-    while (element.childElementCount > remaining) {
-        element.removeChild(child);
-        child = element.lastElementChild;
+function removeChildren(element) {
+    while (element.childElementCount > 0) {
+        element.removeChild(element.lastElementChild);
     }
 }
 
@@ -80,14 +78,13 @@ function checkWinner(json) {
 }
 
 function displayWinner(winnerName) {
-    const game = document.getElementById("game");
-
     // remove game elements
-    removeChildren(game, 0);
+    removeChildren(document.getElementById("game"));
 
     // add winner elements
-    const banner = document.createElement("p");
+    const banner = document.createElement("h2");
     banner.innerText = winnerName + " won!";
+    banner.className = "title is-large";
 
     game.appendChild(banner);
 }

@@ -10,16 +10,31 @@
 </head>
 <body>
     {{template "header.html"}}
-    <div id="game">
-        <h2 id="word"></h2>
-        <input type="text" id="guess">
+    <div class="card has-text-centered" id="game">
+        <div class="field">
+            <h2 class="label is-large" id="word"></h2>
+            <div class="control">
+                <input class="input is-primary" type="text" id="guess" placeholder="Press ENTER to submit">
+            </div>
+        </div>
     </div>
-    <table id="scoreboard">
-        <tr>
-            <th>Username</th>
-            <th>Score</th>
-        </tr>
-    </table>
+    <div class="card">
+        <table class="table is-striped is-fullwidth">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Username</th>
+                    <th>Score</th>
+                </tr>
+            </tfoot>
+            <tbody id="scoreboard"></tbody>
+        </table>
+    </div>
 
     <script>
         // passed to page with server templating engine
