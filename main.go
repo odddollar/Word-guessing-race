@@ -43,6 +43,9 @@ func main() {
 	// handle updating scores for user
 	router.POST("/score", scorePostback)
 
+	// add static route
+	router.Static("/assets", "./static")
+
 	// run server
 	router.Run(":8080")
 }
