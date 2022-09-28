@@ -46,6 +46,9 @@ func main() {
 	// add static route
 	router.Static("/assets", "./static")
 
+	// add error route
+	router.NoRoute(notFound)
+
 	// run server
 	router.Run(":8080")
 }

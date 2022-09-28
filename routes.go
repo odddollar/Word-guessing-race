@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -44,7 +43,7 @@ func getScore(username string) int {
 
 // return home.html template
 func home(ctx *gin.Context) {
-	ctx.HTML(http.StatusOK, "home.html", gin.H{})
+	ctx.HTML(200, "home.html", gin.H{})
 }
 
 // get username from form postback and add to internal database
@@ -55,7 +54,7 @@ func homePostback(ctx *gin.Context) {
 
 	fmt.Println(users)
 
-	ctx.Redirect(http.StatusSeeOther, "/game/"+username)
+	ctx.Redirect(303, "/game/"+username)
 }
 
 // take username query-string and word list and render game.html template
@@ -67,12 +66,9 @@ func game(ctx *gin.Context) {
 	// check that user is valid and return 404 if not
 	s := getScore(username)
 	if s == -1 {
-		ctx.HTML(http.StatusNotFound, "error.html", gin.H{
-			"Error":   "404",
-			"Message": fmt.Sprint("\"" + url + ctx.Request.URL.Path + "\" not found"),
-		})
+		notFound(ctx)
 	} else {
-		ctx.HTML(http.StatusOK, "game.html", gin.H{
+		ctx.HTML(200, "game.html", gin.H{
 			"WordList": string(wordList),
 			"Username": username,
 			"Score":    s,
@@ -85,7 +81,7 @@ func game(ctx *gin.Context) {
 func score(ctx *gin.Context) {
 	body, _ := json.Marshal(users)
 
-	ctx.JSON(http.StatusOK, string(body))
+	ctx.JSON(200, string(body))
 }
 
 // bind request json to struct and update score for that user
@@ -96,4 +92,11 @@ func scorePostback(ctx *gin.Context) {
 	updateScore(body.Username)
 
 	fmt.Println(users)
+}
+
+func notFound(ctx *gin.Context) {
+	ctx.HTML(404, "error.html", gin.H{
+		"Error":   "404",
+		"Message": fmt.Sprint("\"" + ctx.Request.Host + ctx.Request.URL.Path + "\" not found"),
+	})
 }
