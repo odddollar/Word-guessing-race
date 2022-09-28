@@ -39,7 +39,7 @@ func getScore(username string) int {
 			return users[i].Score
 		}
 	}
-	return 0
+	return -1
 }
 
 // return home.html template
@@ -64,12 +64,21 @@ func game(ctx *gin.Context) {
 
 	url := ctx.Request.Host
 
-	ctx.HTML(http.StatusOK, "game.html", gin.H{
-		"WordList": string(wordList),
-		"Username": username,
-		"Score":    getScore(username),
-		"URL":      url,
-	})
+	// check that user is valid and return 404 if not
+	s := getScore(username)
+	if s == -1 {
+		ctx.HTML(http.StatusNotFound, "error.html", gin.H{
+			"Error":   "404",
+			"Message": fmt.Sprint("\"" + url + ctx.Request.URL.Path + "\" not found"),
+		})
+	} else {
+		ctx.HTML(http.StatusOK, "game.html", gin.H{
+			"WordList": string(wordList),
+			"Username": username,
+			"Score":    s,
+			"URL":      url,
+		})
+	}
 }
 
 // marshal user array to json and return as json response
