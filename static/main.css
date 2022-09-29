@@ -1,4 +1,3 @@
-/* global */
 .card {
     padding: 16px;
     margin: 16px;
@@ -10,4 +9,12 @@
 
 .input {
     width: 300px;
+}
+
+.header-subtitle {
+    margin-bottom: 1rem;
+}
+
+.how-to-play-list {
+    margin-bottom: 1.5rem;
 }

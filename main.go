@@ -34,6 +34,9 @@ func main() {
 	// handle postback for setting username
 	router.POST("/", homePostback)
 
+	// host "how to play page"
+	router.GET("/how-to-play", howToPlay)
+
 	// handle redirection to main game page
 	router.GET("/game/:username", game)
 

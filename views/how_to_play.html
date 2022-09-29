@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word guessing race</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="/assets/main.css">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="card has-text-centered">
+        <h2 class="title is-4">How To Play</h2>
+        <p class="subtitle is-6"><b>Aim:</b> Guess all 10 words correctly before the other players</p>
+        <ol class="how-to-play-list">
+            <li>On the home page enter a username and press ENTER or click "Go!"</li>
+            <li>A 5 letter word with the 2<sup>nd</sup> and 4<sup>th</sup> letters missing will appear</li>
+            <li>Enter your guess for the entire word (case sensitive) in the box</li>
+            <li>The box will turn green when the guessed word is correct</li>
+            <li>Press ENTER or click "Submit Guess" to move to the next word</li>
+            <li>When 1 player guesses all 10 words the game stops</li>
+        </ol>
+        <p><b>Note:</b> All words are nouns, verbs or adjectives with no names. It's possible for a word to occur more than once</p>
+    </div>
+</body>
+</html>

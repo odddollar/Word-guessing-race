@@ -57,6 +57,11 @@ func homePostback(ctx *gin.Context) {
 	ctx.Redirect(303, "/game/"+username)
 }
 
+// return how_to_play.html template
+func howToPlay(ctx *gin.Context) {
+	ctx.HTML(200, "how_to_play.html", gin.H{})
+}
+
 // take username query-string and word list and render game.html template
 func game(ctx *gin.Context) {
 	username := ctx.Param("username")
