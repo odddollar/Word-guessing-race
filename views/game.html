@@ -20,6 +20,9 @@
         <input class="button is-primary submit-spacing" type="button" value="Submit Guess" id="submit-guess">
     </div>
     <div class="card">
+        <div class="scoreboard-title">
+            <h2 class="title is-4 has-text-centered">Scoreboard</h2>
+        </div>
         <table class="table is-striped is-fullwidth">
             <thead>
                 <tr>
@@ -82,8 +85,13 @@
             }
         });
 
+        // update scoreboard on page load
+        interval();
+
         // update scoreboard every X period of time
-        let scoreRefresh = setInterval(() => {
+        let scoreRefresh = setInterval(interval, 2000);
+
+        function interval() {
             getScoreboardJSON().then(res => {
                 // remove old scoreboard and replace with updated one
                 removeChildren(document.getElementById("scoreboard"));
@@ -91,8 +99,8 @@
 
                 // check if there's a winner
                 checkWinner(res);
-            })
-        }, 2000);
+            });
+        }
 
         // set guessing word
         function setWord(word) {
