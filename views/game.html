@@ -53,14 +53,23 @@
         // set initial word on page load
         setWord(words[wordIndex]);
 
-        // check guess on enter and update
+        // update correct guess on enter
+        // update outline on input change
         const guessBox = document.getElementById("guess");
         guessBox.addEventListener("keyup", e => {
-            if (e.keyCode == 13) {
-                checkGuess(guessBox.value);
+            if (e.keyCode == 13 && checkGuess(guessBox.value)) {
+                updateWord();
+                
+                // post completion status back to server to update score
+                updateScore();
             }
 
-            // todo: update guessBox outline on right or wrong input
+            // update guessBox outline on right or wrong input
+            if (checkGuess(guessBox.value)) {
+                setOutline("correct");
+            } else {
+                setOutline("incorrect");
+            }
         })
 
         // update scoreboard every X period of time
@@ -86,15 +95,15 @@
             w.innerHTML = text;
         }
 
-        // return promise that will resolve to json data
-        function getScoreboardJSON() {
-            return fetch("http://" + url + "/score", {
-                method: "GET",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            }).then(res => res.json())
-            .catch(e => console.log("Error: ", e));
+        // set outline of guessbox to indicate correct or incorrect
+        function setOutline(status) {
+            if (status == "correct") {
+                guessBox.classList.remove("is-danger");
+                guessBox.classList.add("is-primary");
+            } else {
+                guessBox.classList.remove("is-primary");
+                guessBox.classList.add("is-danger");
+            }
         }
 
         // take json data and add rows to scoreboard table
@@ -157,18 +166,31 @@
 
         function checkGuess(guess) {
             if (guess == words[wordIndex]) {
-                // update to new word
-                wordIndex++;
-                if (words[wordIndex] != null) {
-                    setWord(words[wordIndex]);
-                } else {
-                    setText("No more words");
-                }
-                guessBox.value = "";
-
-                // post completion status back to server to update score
-                updateScore();
+                return true;
             }
+            return false;
+        }
+
+        function updateWord() {
+            // update to new word
+            wordIndex++;
+            if (words[wordIndex] != null) {
+                setWord(words[wordIndex]);
+            } else {
+                setText("No more words");
+            }
+            guessBox.value = "";
+        }
+
+        // return promise that will resolve to json data
+        function getScoreboardJSON() {
+            return fetch("http://" + url + "/score", {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            }).then(res => res.json())
+            .catch(e => console.log("Error: ", e));
         }
 
         // post username as json to api endpoint to register completed word
