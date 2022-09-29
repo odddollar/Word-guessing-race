@@ -12,11 +12,12 @@
     {{template "header.html"}}
     <div class="card has-text-centered" id="game">
         <div class="field">
-            <h2 class="label is-large" id="word"></h2>
+            <label class="label is-large" id="word"></label>
             <div class="control">
-                <input class="input is-primary" type="text" id="guess" placeholder="Correct guesses auto-submit">
+                <input class="input" type="text" id="guess" placeholder="Guess">
             </div>
         </div>
+        <input class="button is-primary submit-spacing" type="button" value="Submit Guess">
     </div>
     <div class="card">
         <table class="table is-striped is-fullwidth">
@@ -54,8 +55,9 @@
         // check guess on input change
         const guessBox = document.getElementById("guess");
         guessBox.addEventListener("keyup", e => {
-            checkGuess(guessBox.value);
-            console.log(guessBox.value);
+            if (e.keyCode == 13) {
+                checkGuess(guessBox.value);
+            }
         })
 
         // update scoreboard every X period of time
