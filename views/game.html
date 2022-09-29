@@ -17,7 +17,7 @@
                 <input class="input" type="text" id="guess" placeholder="Guess">
             </div>
         </div>
-        <input class="button is-primary submit-spacing" type="button" value="Submit Guess">
+        <input class="button is-primary submit-spacing" type="button" value="Submit Guess" id="submit-guess">
     </div>
     <div class="card">
         <table class="table is-striped is-fullwidth">
@@ -59,7 +59,7 @@
         guessBox.addEventListener("keyup", e => {
             if (e.keyCode == 13 && checkGuess(guessBox.value)) {
                 updateWord();
-                
+
                 // post completion status back to server to update score
                 updateScore();
             }
@@ -70,7 +70,17 @@
             } else {
                 setOutline("incorrect");
             }
-        })
+        });
+
+        // button to manually submit guess
+        const submitGuessButton = document.getElementById("submit-guess");
+        submitGuessButton.addEventListener("click", e => {
+            if (checkGuess(guessBox.value)) {
+                updateWord();
+
+                updateScore();
+            }
+        });
 
         // update scoreboard every X period of time
         let scoreRefresh = setInterval(() => {
@@ -120,7 +130,7 @@
             const newRow = document.createElement("tr");
 
             // create new table row and set data
-            const name = document.createElement("td")
+            const name = document.createElement("td");
             name.innerText = row.name;
             newRow.appendChild(name);
             const score = document.createElement("td");
