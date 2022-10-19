@@ -16,7 +16,7 @@ Word Guessing Race is a creatively named multiplayer game where the goal is to c
 Built with Go's [Gin](https://gin-gonic.com/) framework, vanilla JavaScript and [Bulma CSS](https://bulma.io/), the game is run in a Docker container. Build as you would a normal container, exposing port 8080. For example:
 
 ```
-git clone https://github.com/odddollar/Word-Guessing-Race.git
+git clone https://github.com/odddollar/Word-guessing-race.git
 cd Word-Guessing-Race
 docker build -t word-guessing-race .
 docker run -d -p 8080:8080 word-guessing-race
@@ -25,3 +25,9 @@ docker run -d -p 8080:8080 word-guessing-race
 The container can be made available to users outside your local network with a service like [Ngrok](https://ngrok.com/).
 
 **Note:** A game is a single running container. To restart the game it's necessary to restart the Docker container.
+
+## Screenshots
+
+![Game](screenshots/game.png)
+
+![How to play](screenshots/how_to_play.png)
