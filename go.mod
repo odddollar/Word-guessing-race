@@ -1,4 +1,4 @@
-module client
+module Word-guessing-race
 
 go 1.19
 
